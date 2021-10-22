@@ -6,26 +6,26 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class Controlador {
+public class ControladorUsuario {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
-    @PostMapping // CREATE
+    @PostMapping("/usuario") // CREATE
     public Usuario addUser(@RequestBody Usuario usuario){
         System.out.println("Creating");
         usuarioRepositorio.save(usuario);
         return usuario;
     }
 
-    @GetMapping("{id}") // READ
+    @GetMapping("/usuario/{id}") // READ
     public Usuario getById(@PathVariable String id) throws Exception {
         System.out.println("Reading");
         return usuarioRepositorio.findById(id).orElseThrow(() -> new Exception("No encontrado"));
     }
 
     @Transactional(rollbackFor=Exception.class, propagation = Propagation.NOT_SUPPORTED)
-    @PutMapping //UPDATE
+    @PutMapping("/usuario") //UPDATE
     public Usuario editById(@RequestBody Usuario usuario){
         /*
         DefaultTransactionDefinition definition = null;
@@ -44,7 +44,7 @@ public class Controlador {
         return usuario;
     }
 
-    @DeleteMapping("{id}") //DELETE
+    @DeleteMapping("/usuario/{id}") //DELETE
     public Usuario deleteUser(@PathVariable String id){
         System.out.println("Deleting");
         Usuario ret = usuarioRepositorio.findById(id).orElse(new Usuario());
