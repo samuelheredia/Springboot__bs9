@@ -1,6 +1,6 @@
 package com.bosonit.springboot.db1;
 
-import org.aspectj.apache.bcel.classfile.ClassFormatException;
+import com.bosonit.springboot.db1.content.persona.domain.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

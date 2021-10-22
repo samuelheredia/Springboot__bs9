@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db1;
+package com.bosonit.springboot.db1.content.persona.domain;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
