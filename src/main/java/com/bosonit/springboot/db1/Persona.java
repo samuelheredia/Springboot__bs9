@@ -25,7 +25,6 @@ public class Persona {
     String name; // not null
     String surname;
     @NotNull
-    // Rutina comprobacion email
     @Column(name="emailc", nullable = false, length=25)
     String company_email; //not null, check-email true
     @Column(name="emailp", nullable = false, length=25)
