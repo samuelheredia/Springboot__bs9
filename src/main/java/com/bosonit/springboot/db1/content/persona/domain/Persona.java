@@ -1,7 +1,9 @@
 package com.bosonit.springboot.db1.content.persona.domain;
 
+import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Persona {
     @Id
     @GeneratedValue
@@ -37,4 +40,19 @@ public class Persona {
     Date created_date; //not null
     String imagen_url;
     Date termination_date;
+
+    public Persona(PersonaInputDTO personaInputDTO){
+        this.setId_persona(personaInputDTO.getId_persona());
+        this.setUsuario(personaInputDTO.getUsuario());
+        this.setPassword(personaInputDTO.getPassword());
+        this.setName(personaInputDTO.getName());
+        this.setSurname(personaInputDTO.getSurname());
+        this.setCompany_email(personaInputDTO.getCompany_email());
+        this.setPersonal_email(personaInputDTO.getPersonal_email());
+        this.setCity(personaInputDTO.getCity());
+        this.setActive(personaInputDTO.getActive());
+        this.setCreated_date(personaInputDTO.getCreated_date());
+        this.setImagen_url(personaInputDTO.getImagen_url());
+        this.setTermination_date(personaInputDTO.getTermination_date());
+    }
 }

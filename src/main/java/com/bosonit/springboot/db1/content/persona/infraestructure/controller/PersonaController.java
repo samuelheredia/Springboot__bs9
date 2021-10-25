@@ -1,70 +1,54 @@
-package com.bosonit.springboot.db1;
+package com.bosonit.springboot.db1.content.persona.infraestructure.controller;
 
-import com.bosonit.springboot.db1.content.persona.domain.Persona;
+import com.bosonit.springboot.db1.content.persona.application.port.PersonaPort;
+import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-public class ControladorPersona {
+public class PersonaController {
 
     @Autowired
-    PersonaRepositorio personaRepositorio;
+    PersonaPort personaPort;
 
     // Añadir persona
     @PostMapping("/persona") // CREATE
-    public Persona addPersona(@RequestBody Persona persona){
-        try {
-            validatePersona(persona);
-            personaRepositorio.save(persona);
-            return persona;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Persona();
+    public PersonaOutputDTO addPersona(@RequestBody PersonaInputDTO personaInputDTO){
+        return personaPort.save(personaInputDTO).orElse( new PersonaOutputDTO() );
     }
 
     // Buscar persona por id
     @GetMapping("/persona/{id}") // READ
-    public Persona getById(@PathVariable int id) throws Exception {
-        return personaRepositorio.findById(id).orElseThrow(() -> new Exception("No encontrado"));
+    public PersonaOutputDTO getById(@PathVariable int id) throws Exception {
+        return personaPort.getById(id).orElseThrow(() -> new Exception("Error 404"));
     }
 
     // Busca persona por nombre
     @GetMapping("/persona/nombre/{nombre}") // READ
-    public List<Persona> getByName(@PathVariable String nombre) {
-        return personaRepositorio.buscaPorNombre(nombre);
-        //return personaRepositorio.findByName(nombre);
+    public List<PersonaOutputDTO> getByName(@PathVariable String nombre) {
+        return personaPort.getByName(nombre);
     }
 
     // Busca todas las personas
     @GetMapping("/persona/all")
-    public List<Persona> getAll()  {
-        return personaRepositorio.findAll();
+    public List<PersonaOutputDTO> getAll()  {
+        return personaPort.getAll();
     }
 
     // Actualiza persona
-    @PutMapping("/persona")
-    public Persona editById(@RequestBody Persona persona){
-        try {
-            validatePersona(persona);
-            personaRepositorio.save(persona);
-            return persona;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Persona();
+    @PutMapping("/persona/{id}")
+    public PersonaOutputDTO editById(@PathVariable int id, @RequestBody PersonaInputDTO personaInputDTO) throws Exception {
+        return personaPort.edit(id, personaInputDTO).orElseThrow( () -> new Exception("Error 406") );
     }
 
     // Borra persona
     @DeleteMapping("/persona/{id}")
-    public Persona deletePersona(@PathVariable int id){
-        Persona ret = personaRepositorio.findById(id).orElse(new Persona());
-        personaRepositorio.deleteById(id);
-        return ret;
+    public void deletePersona(@PathVariable int id) throws Exception {
+        personaPort.deleteById(id).orElseThrow( () -> new Exception("Error 406") );
     }
-
+/*
     public void validatePersona(Persona persona) throws Exception {
         if(persona.usuario == null) throw new NullPointerException("El usuario no puede ser null");
         if(persona.usuario.length() > 10 || persona.usuario.length() < 6 )
@@ -78,4 +62,5 @@ public class ControladorPersona {
         if(persona.active == null) throw new NullPointerException("La actividad no puede ser null");
         if(persona.created_date == null) throw new NullPointerException("La fecha de creación no puede ser null");
     }
+ */
 }
