@@ -70,6 +70,7 @@ public class PersonaUseCase implements PersonaPort {
     @Override
     public Optional<PersonaOutputDTO> edit(int id, PersonaInputDTO personaInputDTO) {
         if(personaPortRep.getById(id).isPresent()) {
+
             try {
                 validatePersona(personaInputDTO);
                 return Optional

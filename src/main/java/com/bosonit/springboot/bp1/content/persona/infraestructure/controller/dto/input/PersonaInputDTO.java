@@ -18,7 +18,7 @@ public class PersonaInputDTO {
     String personal_email; //not null, check-email true
     String city; //not null
     Boolean active; //not null
-    LocalDate created_date; //not null
+    Date created_date; //not null
     String imagen_url;
-    LocalDate termination_date;
+    Date termination_date;
 }

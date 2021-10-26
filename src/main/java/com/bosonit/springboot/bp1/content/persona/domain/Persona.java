@@ -40,9 +40,9 @@ public class Persona {
     @Column(nullable = false)
     Boolean active; //not null
     @Column(nullable = false)
-    LocalDate created_date; //not null
+    Date created_date; //not null
     String imagen_url;
-    LocalDate termination_date;
+    Date termination_date;
 
     public Persona(int id, PersonaInputDTO personaInputDTO){
         this.setId_persona(id);

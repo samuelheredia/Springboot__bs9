@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 
@@ -21,8 +22,13 @@ public class Db1Application {
 
 	@Bean
 	public CommandLineRunner run(PersonaPortRep personaRepository){
-		LocalDate date1 = LocalDate.of(2021,10,21);
-		LocalDate date2 = LocalDate.of(2099,10,21);
+		ZoneId defaultZoneId = ZoneId.systemDefault();
+
+		LocalDate localDate1 = LocalDate.of(2021,10,21);
+		LocalDate localDate2 = LocalDate.of(2099,10,21);
+
+		Date date1 = Date.from(localDate1.atStartOfDay(defaultZoneId).toInstant());
+		Date date2 = Date.from(localDate2.atStartOfDay(defaultZoneId).toInstant());
 
 		return (String[] args) -> {
 			Persona persona1 = new Persona(1, "ConanCim","Serpiente","Conan",
