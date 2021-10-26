@@ -2,6 +2,7 @@ package com.bosonit.springboot.bp1.content.persona.domain;
 
 import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,11 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Persona {
     @Id
     @GeneratedValue
@@ -37,9 +40,9 @@ public class Persona {
     @Column(nullable = false)
     Boolean active; //not null
     @Column(nullable = false)
-    Date created_date; //not null
+    LocalDate created_date; //not null
     String imagen_url;
-    Date termination_date;
+    LocalDate termination_date;
 
     public Persona(int id, PersonaInputDTO personaInputDTO){
         this.setId_persona(id);

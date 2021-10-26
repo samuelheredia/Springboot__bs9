@@ -2,6 +2,8 @@ package com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dt
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -16,7 +18,7 @@ public class PersonaInputDTO {
     String personal_email; //not null, check-email true
     String city; //not null
     Boolean active; //not null
-    Date created_date; //not null
+    LocalDate created_date; //not null
     String imagen_url;
-    Date termination_date;
+    LocalDate termination_date;
 }
