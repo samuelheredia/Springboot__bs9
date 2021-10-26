@@ -1,2 +1,2 @@
-# SpringBoot__bs8
-Personalizando respuestas
+# SpringBoot__db2
+Relación entre entidades en JPA

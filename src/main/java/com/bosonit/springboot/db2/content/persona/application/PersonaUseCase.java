@@ -1,12 +1,12 @@
-package com.bosonit.springboot.bs8.content.persona.application;
+package com.bosonit.springboot.db2.content.persona.application;
 
-import com.bosonit.springboot.bs8.content.persona.application.port.PersonaPort;
-import com.bosonit.springboot.bs8.content.persona.domain.Persona;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.repository.port.PersonaPortRep;
-import com.bosonit.springboot.bs8.exception.NotFoundException;
-import com.bosonit.springboot.bs8.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
+import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.db2.exception.NotFoundException;
+import com.bosonit.springboot.db2.exception.UnprocesableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

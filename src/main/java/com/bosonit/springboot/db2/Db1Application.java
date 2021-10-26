@@ -1,7 +1,7 @@
-package com.bosonit.springboot.bs8;
+package com.bosonit.springboot.db2;
 
-import com.bosonit.springboot.bs8.content.persona.domain.Persona;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
+import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,8 +1,8 @@
-package com.bosonit.springboot.bs8.content.persona.infraestructure.repository;
+package com.bosonit.springboot.db2.content.persona.infraestructure.repository;
 
-import com.bosonit.springboot.bs8.content.persona.domain.Persona;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.repository.jpa.PersonaRepositoryJPA;
-import com.bosonit.springboot.bs8.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
+import com.bosonit.springboot.db2.content.persona.infraestructure.repository.jpa.PersonaRepositoryJPA;
+import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

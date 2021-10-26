@@ -1,4 +1,4 @@
-package com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.input;
+package com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input;
 
 import lombok.Getter;
 import lombok.Setter;

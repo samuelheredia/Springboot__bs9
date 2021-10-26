@@ -1,7 +1,7 @@
-package com.bosonit.springboot.bs8.content.persona.infraestructure.repository.port;
+package com.bosonit.springboot.db2.content.persona.infraestructure.repository.port;
 
 
-import com.bosonit.springboot.bs8.content.persona.domain.Persona;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
 
 import java.util.List;
 import java.util.Optional;

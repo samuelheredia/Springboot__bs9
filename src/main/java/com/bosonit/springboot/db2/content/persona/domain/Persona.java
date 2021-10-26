@@ -1,6 +1,6 @@
-package com.bosonit.springboot.bs8.content.persona.domain;
+package com.bosonit.springboot.db2.content.persona.domain;
 
-import com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

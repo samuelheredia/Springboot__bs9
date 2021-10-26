@@ -1,4 +1,4 @@
-package com.bosonit.springboot.bs8.exception;
+package com.bosonit.springboot.db2.exception;
 
 public class UnprocesableException extends RuntimeException {
     public UnprocesableException(String message) {
