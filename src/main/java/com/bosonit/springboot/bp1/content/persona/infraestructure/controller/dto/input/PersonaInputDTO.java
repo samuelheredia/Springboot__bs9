@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input;
+package com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class PersonaInputDTO {
-    int id_persona; // PK, autoincrement
+    //int id_persona; // PK, autoincrement
     String usuario; // not null, max/min 10/6
     String password; // not null
     String name; // not null

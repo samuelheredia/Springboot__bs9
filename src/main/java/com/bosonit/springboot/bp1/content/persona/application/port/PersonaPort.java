@@ -1,8 +1,7 @@
-package com.bosonit.springboot.db1.content.persona.application.port;
+package com.bosonit.springboot.bp1.content.persona.application.port;
 
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
-import org.springframework.stereotype.Service;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,10 +1,10 @@
-package com.bosonit.springboot.db1.content.persona.application;
+package com.bosonit.springboot.bp1.content.persona.application;
 
-import com.bosonit.springboot.db1.content.persona.application.port.PersonaPort;
-import com.bosonit.springboot.db1.content.persona.domain.Persona;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
-import com.bosonit.springboot.db1.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.bp1.content.persona.application.port.PersonaPort;
+import com.bosonit.springboot.bp1.content.persona.domain.Persona;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.repository.port.PersonaPortRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,8 +59,9 @@ public class PersonaUseCase implements PersonaPort {
     @Override
     public Optional<PersonaOutputDTO> deleteById(int id) {
         if(personaPortRep.getById(id).isPresent()) {
+            PersonaOutputDTO personaOutputDTO = new PersonaOutputDTO(personaPortRep.getById(id).get());
             personaPortRep.deleteById(id);
-            return Optional.of( new PersonaOutputDTO( personaPortRep.getById(id).get() ) );
+            return Optional.of( personaOutputDTO );
         }
         else
             return Optional.empty();
@@ -73,7 +74,7 @@ public class PersonaUseCase implements PersonaPort {
                 validatePersona(personaInputDTO);
                 return Optional
                         .of(new PersonaOutputDTO(personaPortRep
-                                .save(new Persona(personaInputDTO)).orElse(new Persona())));
+                                .save(new Persona(id, personaInputDTO)).orElse(new Persona())));
             } catch (Exception e) { e.printStackTrace(); }
         }
         return Optional.empty();

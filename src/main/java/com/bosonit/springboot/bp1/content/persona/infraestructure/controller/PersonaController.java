@@ -1,8 +1,8 @@
-package com.bosonit.springboot.db1.content.persona.infraestructure.controller;
+package com.bosonit.springboot.bp1.content.persona.infraestructure.controller;
 
-import com.bosonit.springboot.db1.content.persona.application.port.PersonaPort;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
+import com.bosonit.springboot.bp1.content.persona.application.port.PersonaPort;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

@@ -1,7 +1,6 @@
-package com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.output;
+package com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.output;
 
-import com.bosonit.springboot.db1.content.persona.domain.Persona;
-import com.bosonit.springboot.db1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.bp1.content.persona.domain.Persona;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

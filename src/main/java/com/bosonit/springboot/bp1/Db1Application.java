@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db1;
+package com.bosonit.springboot.bp1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

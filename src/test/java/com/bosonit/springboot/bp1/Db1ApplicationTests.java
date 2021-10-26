@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db1;
+package com.bosonit.springboot.bp1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

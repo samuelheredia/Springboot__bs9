@@ -1,6 +1,6 @@
-package com.bosonit.springboot.db1.content.persona.infraestructure.repository.jpa;
+package com.bosonit.springboot.bp1.content.persona.infraestructure.repository.jpa;
 
-import com.bosonit.springboot.db1.content.persona.domain.Persona;
+import com.bosonit.springboot.bp1.content.persona.domain.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
