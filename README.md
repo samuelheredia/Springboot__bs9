@@ -1,2 +1,2 @@
-# SpringBoot__bp1
-Buenas prácticas. Arquitectura hexagonal
+# SpringBoot__bs8
+Personalizando respuestas

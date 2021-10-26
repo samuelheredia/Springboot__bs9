@@ -1,6 +1,6 @@
-package com.bosonit.springboot.bp1.content.persona.domain;
+package com.bosonit.springboot.bs8.content.persona.domain;
 
-import com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import javax.persistence.Entity;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity

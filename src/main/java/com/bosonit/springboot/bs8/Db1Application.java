@@ -1,12 +1,11 @@
-package com.bosonit.springboot.bp1;
+package com.bosonit.springboot.bs8;
 
-import com.bosonit.springboot.bp1.content.persona.domain.Persona;
-import com.bosonit.springboot.bp1.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.bs8.content.persona.domain.Persona;
+import com.bosonit.springboot.bs8.content.persona.infraestructure.repository.port.PersonaPortRep;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

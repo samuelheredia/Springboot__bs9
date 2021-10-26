@@ -1,9 +1,8 @@
-package com.bosonit.springboot.bp1.content.persona.infraestructure.controller.dto.input;
+package com.bosonit.springboot.bs8.content.persona.infraestructure.controller.dto.input;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Getter

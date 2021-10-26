@@ -1,4 +1,4 @@
-package com.bosonit.springboot.bp1;
+package com.bosonit.springboot.bs8;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
