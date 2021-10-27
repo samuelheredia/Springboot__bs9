@@ -2,13 +2,14 @@ package com.bosonit.springboot.db2.content.persona.infraestructure.repository.po
 
 
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
+import com.bosonit.springboot.db2.content.persona.infraestructure.repository.jpa.PersonaRepositoryJPA;
 
 import java.util.List;
 import java.util.Optional;
 
 
 public interface PersonaPortRep {
-    Optional<Persona> save(Persona persona);
+    Persona save(Persona persona);
     Optional<Persona> getById(int id);
     List<Persona> getByName(String name);
     List<Persona> getAll();

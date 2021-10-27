@@ -5,8 +5,8 @@ import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
-import com.bosonit.springboot.db2.exception.NotFoundException;
-import com.bosonit.springboot.db2.exception.UnprocesableException;
+import com.bosonit.springboot.db2.config.exception.NotFoundException;
+import com.bosonit.springboot.db2.config.exception.UnprocesableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,7 @@ public class PersonaUseCase implements PersonaPort {
         if( validatePersona(personaInputDTO) )
             return Optional.of(
                     new PersonaOutputDTO(
-                            personaPortRep.save(new Persona(personaInputDTO))
-                                    .orElse(new Persona())));
+                            personaPortRep.save(new Persona(personaInputDTO)) ));
         return Optional.empty();
     }
 
@@ -70,8 +69,7 @@ public class PersonaUseCase implements PersonaPort {
                 validatePersona(personaInputDTO);
                 return Optional
                         .of(new PersonaOutputDTO(personaPortRep
-                                .save(new Persona(id, personaInputDTO)).orElse(new Persona())));
-        }
+                                .save(new Persona(id, personaInputDTO)))); }
         else
             throw new NotFoundException("Persona con ID: "+id+" no encontrada");
     }

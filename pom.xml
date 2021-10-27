@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bosonit.springboot</groupId>
-	<artifactId>db1</artifactId>
+	<artifactId>db2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>db1</name>
 	<description> Acceso a base de datos en Spring Boot Data. JPA (Hibernate).</description>

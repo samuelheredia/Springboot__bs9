@@ -16,8 +16,8 @@ public class PersonaRepository implements PersonaPortRep {
     PersonaRepositoryJPA personaRepositoryJPA;
 
     @Override
-    public Optional<Persona> save(Persona persona) {
-        return Optional.of( personaRepositoryJPA.save(persona) );
+    public Persona save(Persona persona) {
+        return  personaRepositoryJPA.save(persona) ;
     }
 
     @Override

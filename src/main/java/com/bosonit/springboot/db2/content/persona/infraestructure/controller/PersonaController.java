@@ -3,7 +3,7 @@ package com.bosonit.springboot.db2.content.persona.infraestructure.controller;
 import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
-import com.bosonit.springboot.db2.exception.NotFoundException;
+import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

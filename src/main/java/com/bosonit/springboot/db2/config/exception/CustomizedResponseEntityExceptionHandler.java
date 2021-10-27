@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db2.exception;
+package com.bosonit.springboot.db2.config.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

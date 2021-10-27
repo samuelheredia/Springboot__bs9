@@ -2,8 +2,8 @@ package com.bosonit.springboot.db2.content.persona.application.port;
 
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
-import com.bosonit.springboot.db2.exception.NotFoundException;
-import com.bosonit.springboot.db2.exception.UnprocesableException;
+import com.bosonit.springboot.db2.config.exception.NotFoundException;
+import com.bosonit.springboot.db2.config.exception.UnprocesableException;
 
 import java.util.List;
 import java.util.Optional;

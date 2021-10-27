@@ -1,4 +1,4 @@
-package com.bosonit.springboot.db2.exception;
+package com.bosonit.springboot.db2.config.exception;
 
 import java.util.Date;
 
