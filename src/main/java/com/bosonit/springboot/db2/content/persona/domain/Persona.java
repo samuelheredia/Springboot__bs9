@@ -48,12 +48,13 @@ public class Persona {
         this.setUsuario(personaInputDTO.getUsuario());
         this.setPassword(personaInputDTO.getPassword());
         this.setName(personaInputDTO.getName());
-        this.setSurname(personaInputDTO.getSurname());
         this.setCompany_email(personaInputDTO.getCompany_email());
         this.setPersonal_email(personaInputDTO.getPersonal_email());
         this.setCity(personaInputDTO.getCity());
         this.setActive(personaInputDTO.getActive());
         this.setCreated_date(personaInputDTO.getCreated_date());
+
+        this.setSurname(personaInputDTO.getSurname() );
         this.setImagen_url(personaInputDTO.getImagen_url());
         this.setTermination_date(personaInputDTO.getTermination_date());
     }

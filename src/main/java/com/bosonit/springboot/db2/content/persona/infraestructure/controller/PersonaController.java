@@ -49,7 +49,7 @@ public class PersonaController {
 
     // Borra persona
     @DeleteMapping("{id}")
-    public String deletePersona(@PathVariable int id) {
-        return "Borrada persona con ID: "+personaPort.deleteById(id).orElse( new PersonaOutputDTO() ).getId_persona();
+    public void deletePersona(@PathVariable int id) {
+        personaPort.deleteById(id);
     }
 }

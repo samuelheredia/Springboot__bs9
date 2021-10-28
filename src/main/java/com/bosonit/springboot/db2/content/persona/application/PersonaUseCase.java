@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,10 +67,20 @@ public class PersonaUseCase implements PersonaPort {
     @Override
     public Optional<PersonaOutputDTO> edit(int id, PersonaInputDTO personaInputDTO) throws UnprocesableException, NotFoundException {
         if(personaPortRep.getById(id).isPresent()) {
-                validatePersona(personaInputDTO);
-                return Optional
-                        .of(new PersonaOutputDTO(personaPortRep
-                                .save(new Persona(id, personaInputDTO)))); }
+            Persona oldPersona = personaPortRep.getById(id).get();
+            personaInputDTO.setActive( personaInputDTO.getActive() != null ? personaInputDTO.getActive() : oldPersona.getActive() );
+            personaInputDTO.setCity( personaInputDTO.getCity() != null ? personaInputDTO.getCity() : oldPersona.getCity() );
+            personaInputDTO.setCompany_email(personaInputDTO.getCompany_email() != null ? personaInputDTO.getCompany_email() : oldPersona.getCompany_email());
+            personaInputDTO.setPersonal_email(personaInputDTO.getPersonal_email() != null ? personaInputDTO.getPersonal_email() : oldPersona.getPersonal_email());
+            personaInputDTO.setImagen_url(personaInputDTO.getImagen_url() != null ? personaInputDTO.getImagen_url() : oldPersona.getImagen_url());
+            personaInputDTO.setName(personaInputDTO.getName() != null ? personaInputDTO.getName() : oldPersona.getName());
+            personaInputDTO.setPassword(personaInputDTO.getPassword() != null ? personaInputDTO.getPassword() : oldPersona.getPassword());
+            personaInputDTO.setSurname(personaInputDTO.getSurname() != null ? personaInputDTO.getSurname() : oldPersona.getSurname());
+            personaInputDTO.setTermination_date(personaInputDTO.getTermination_date() != null ? personaInputDTO.getTermination_date() : oldPersona.getTermination_date());
+            personaInputDTO.setCreated_date( new Date() );
+            return Optional
+                    .of(new PersonaOutputDTO(personaPortRep
+                        .save(new Persona(id, personaInputDTO)))); }
         else
             throw new NotFoundException("Persona con ID: "+id+" no encontrada");
     }

@@ -18,7 +18,6 @@ public class StudentRepository implements StudentPortRep {
 
     @Override
     public Student save(Student student) {
-
         return studentRepositoryJPA.save(student);
     }
 

@@ -1,27 +1,23 @@
 package com.bosonit.springboot.db2.content.student.domain;
 
-import com.bosonit.springboot.db2.content.Branch;
 import com.bosonit.springboot.db2.content.StringPrefixedSequenceIdGenerator;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.input.StudentInputDTO;
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ausencias_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
     @GenericGenerator(
-            name = "ausencias_seq",
+            name = "student_seq",
             strategy = "com.bosonit.springboot.db2.content.StringPrefixedSequenceIdGenerator",
             parameters = {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
@@ -39,26 +35,28 @@ public class Student {
     int num_hours_week;
     @Column(name="comments")
     String comments;
-    //@Column(name="id_profesor")
-    //String id_profesor; //ref
     @Column(name="branch", nullable = false)
     String branch;
 
-    public Student(Persona persona, int num_hours_week, String comments, String branch){
-        this.persona = persona;
+    public Student(int num_hours_week, String comments, String branch, Persona persona ){
         this.num_hours_week = num_hours_week;
         this.comments = comments;
         this.branch = branch;
+        this.persona = persona;
     }
 
-    public Student(StudentInputDTO studentInputDTO){
-        //this.persona = persona;
+    public Student(String id, StudentInputDTO studentInputDTO, Persona persona){
+        this.id_student = id;
         this.num_hours_week = studentInputDTO.getHoursWeek();
-        this.comments = studentInputDTO.getComments();
+        this.comments = studentInputDTO.getComments() != null ? studentInputDTO.getComments() : this.comments;
         this.branch = studentInputDTO.getBranch();
+        this.persona = persona;
     }
 
-    public void addPersona(Persona persona){
+    public Student(StudentInputDTO studentInputDTO, Persona persona){
+        this.num_hours_week = studentInputDTO.getHoursWeek();
+        this.comments = studentInputDTO.getComments() != null ? studentInputDTO.getComments() : this.comments;
+        this.branch = studentInputDTO.getBranch();
         this.persona = persona;
     }
 }
