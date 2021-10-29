@@ -4,9 +4,12 @@ import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaProfesorOutputDTO;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaStudentOutputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.student.infraestructure.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,25 +34,76 @@ public class PersonaUseCase implements PersonaPort {
     }
 
     @Override
-    public Optional<PersonaOutputDTO> getById(int id) {
-        if(personaPortRep.getById(id).isPresent())
-            return Optional.of( new PersonaOutputDTO(personaPortRep.getById(id).orElse( new Persona() )) );
+    public Optional<PersonaOutputDTO> getById(int id, String type) {
+        if(personaPortRep.getById(id).isPresent()) {
+            Persona persona = personaPortRep.getById(id).orElse(new Persona());
+
+            switch(type){
+                case "simple": return Optional.of(new PersonaOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                case "full":
+
+
+                    if(persona.getProfesor() != null)
+                        return Optional.of(new PersonaProfesorOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                    if(persona.getStudent() != null)
+                        return Optional.of(new PersonaStudentOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                    return Optional.of(new PersonaOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                default:
+                    throw new UnprocesableException("Parámetro '"+type+"' no reconocido (debe ser full/simple)");
+            }
+        }
         throw new NotFoundException("Persona con ID: "+id+" no encontrada");
     }
 
     @Override
-    public List<PersonaOutputDTO> getByName(String name) {
+    public List<PersonaOutputDTO> getByName(String name, String type) {
         List<PersonaOutputDTO> personaOutputDTOList = new ArrayList<>();
-        personaPortRep.getByName(name).forEach(
-            (persona) -> personaOutputDTOList.add( new PersonaOutputDTO(persona) ));
+        switch(type) {
+            case "simple":
+                personaPortRep.getByName(name).forEach(
+                        (persona) -> personaOutputDTOList.add(new PersonaOutputDTO(persona)));
+                break;
+            case "full":
+                personaPortRep.getByName(name).forEach(
+                        (persona) -> {
+                            if (persona.getProfesor() != null)
+                                personaOutputDTOList.add(new PersonaProfesorOutputDTO(persona));
+                            if (persona.getStudent() != null)
+                                personaOutputDTOList.add(new PersonaStudentOutputDTO(persona));
+                            if (persona.getStudent() == null && persona.getProfesor() == null)
+                                personaOutputDTOList.add(new PersonaOutputDTO(persona));
+                        }
+                );
+                break;
+            default:
+                throw new UnprocesableException("Parámetro '" + type + "' no reconocido (debe ser full/simple)");
+        }
         return personaOutputDTOList;
     }
 
     @Override
-    public List<PersonaOutputDTO> getAll() {
+    public List<PersonaOutputDTO> getAll(String type) {
         List<PersonaOutputDTO> personaOutputDTOList = new ArrayList<>();
-        personaPortRep.getAll().forEach(
-                (persona) -> personaOutputDTOList.add( new PersonaOutputDTO(persona) ));
+        switch(type) {
+            case "simple":
+                personaPortRep.getAll().forEach(
+                        (persona) -> personaOutputDTOList.add(new PersonaOutputDTO(persona)));
+                break;
+            case "full":
+                personaPortRep.getAll().forEach(
+                        (persona) -> {
+                            if (persona.getProfesor() != null)
+                                personaOutputDTOList.add(new PersonaProfesorOutputDTO(persona));
+                            if (persona.getStudent() != null)
+                                personaOutputDTOList.add(new PersonaStudentOutputDTO(persona));
+                            if (persona.getStudent() == null && persona.getProfesor() == null)
+                                personaOutputDTOList.add(new PersonaOutputDTO(persona));
+                        }
+                );
+                break;
+            default:
+                throw new UnprocesableException("Parámetro '" + type + "' no reconocido (debe ser full/simple)");
+        }
         return personaOutputDTOList;
     }
 

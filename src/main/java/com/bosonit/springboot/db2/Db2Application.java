@@ -32,23 +32,25 @@ public class Db2Application {
 		return (String[] args) -> {
 			Persona persona1 = new Persona(1, "ConanCim","Serpiente","Conan",
 					"El barbaro","mata@serpientes.com","conan@cimmeria.com",
-					"Cimmeria",true, new Date(), "http://conan.jpg",date);
+					"Cimmeria",true, "http://conan.jpg",date);
+			personaRepository.save(persona1);
 			Persona persona2 = new Persona(2, "AshKetchum","Pikachu","Ash",
 					"Ketchum","caza@pokemon.com","ash@oak.com",
-					"Pueblo paleta",true, new Date(), "http://conan.jpg",date);
+					"Pueblo paleta",true, "http://conan.jpg",date);
+			personaRepository.save(persona2);
 			Persona persona3 = new Persona(3, "summum","Rinoa","Squall",
 					"Leonhart","squall@ff8.com","squall@ff8.com",
-					"Winhill",true, new Date(), "http://gryphus.jpg",date);
-			Student student = new Student(20,"PEREKEPEN", "FULLSTACK", persona1);
-			Profesor profesor = new Profesor("Comentario1","FRONTEND",persona2);
-			personaRepository.save(persona1);
-			personaRepository.save(persona2);
+					"Winhill",true, "http://gryphus.jpg",date);
 			personaRepository.save(persona3);
-			studentRepository.save(student);
-			profesorRepository.save(profesor);
+			Profesor profesor = new Profesor("Comentario1","FRONTEND",persona1);
+			profesor = profesorRepository.save(profesor);
+			Student student = new Student(20,"PEREKEPEN", "FULLSTACK", persona2, profesor);
+			student = studentRepository.save(student);
+
+
 			System.out.println("-- Cargadas personas de prueba: "+persona1.getUsuario()+";"+persona2.getUsuario()+";"+persona3.getUsuario());
-			System.out.println("-- Cargado estudiante de prueba: "+student.getId_student());
-			System.out.println("-- Cargado profesor de prueba: "+profesor.getId_profesor());
+			System.out.println("-- Cargado estudiante de prueba: "+student.getId_student()+" --> "+persona1.getStudent());
+			System.out.println("-- Cargado profesor de prueba: "+profesor.getId_profesor()+" --> "+persona2.getProfesor());
 		};
 	}
 

@@ -8,7 +8,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class PersonaInputDTO {
-    //int id_persona; // PK, autoincrement
     String usuario; // not null, max/min 10/6
     String password; // not null
     String name; // not null

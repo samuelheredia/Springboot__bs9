@@ -3,12 +3,16 @@ package com.bosonit.springboot.db2.content.profesor.domain;
 import com.bosonit.springboot.db2.content.StringPrefixedSequenceIdGenerator;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.profesor.infraestructure.controller.dto.input.ProfesorInputDTO;
+import com.bosonit.springboot.db2.content.student.domain.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -35,6 +39,8 @@ public class Profesor {
     String comments;
     @Column(name="branch", nullable = false)
     String branch;
+    @OneToMany(mappedBy = "profesor")
+    Set<Student> students = new HashSet<>();
 
     public Profesor(String comments, String branch, Persona persona ){
         this.comments = comments;
@@ -53,5 +59,9 @@ public class Profesor {
         this.comments = profesorInputDTO.getComments() != null ? profesorInputDTO.getComments() : this.comments;
         this.branch = profesorInputDTO.getBranch();
         this.persona = persona;
+    }
+
+    public boolean addStudent(Student student){
+        return students.add(student);
     }
 }

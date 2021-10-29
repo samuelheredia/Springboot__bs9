@@ -10,4 +10,5 @@ public class StudentInputDTO {
     String comments;
     int id_persona;
     String branch;
+    String id_profesor;
 }

@@ -14,6 +14,7 @@ public class StudentSimpleOutputDTO {
     int hoursWeek;
     String comments;
     String branch;
+    String id_profesor;
 
     public StudentSimpleOutputDTO(Student student){
         this.id = student.getId_student();
@@ -21,5 +22,6 @@ public class StudentSimpleOutputDTO {
         this.hoursWeek = student.getNum_hours_week();
         this.comments = student.getComments();
         this.branch = student.getBranch();
+        this.id_profesor = student.getProfesor() == null ? null : student.getProfesor().getId_profesor();
     }
 }

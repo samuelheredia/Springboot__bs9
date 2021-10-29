@@ -4,6 +4,7 @@ import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
+import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaProfesorOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -23,21 +24,21 @@ public class PersonaController {
 
     // Buscar persona por id
     @GetMapping("{id}") // READ
-    public PersonaOutputDTO getById(@PathVariable int id) {
-        //return personaPort.getById(id).orElseThrow(() -> new BeanNotFoundException("Error 404"));
-        return personaPort.getById(id).orElseThrow(() -> new NotFoundException("No encontrada persona con id: "+id));
+    public PersonaOutputDTO getById(@PathVariable int id, @RequestParam(name = "outputType", defaultValue = "simple") String type) {
+        return personaPort.getById(id, type).orElseThrow(() -> new NotFoundException("No encontrada persona con id: "+id));
     }
 
     // Busca persona por nombre
     @GetMapping("nombre/{nombre}") // READ
-    public List<PersonaOutputDTO> getByName(@PathVariable String nombre) {
-        return personaPort.getByName(nombre);
+    public List<PersonaOutputDTO> getByName(@PathVariable String nombre, @RequestParam(name = "outputType", defaultValue = "simple") String type) {
+
+        return personaPort.getByName(nombre,type);
     }
 
     // Busca todas las personas
     @GetMapping("all")
-    public List<PersonaOutputDTO> getAll()  {
-        return personaPort.getAll();
+    public List<PersonaOutputDTO> getAll( @RequestParam(name = "outputType", defaultValue = "simple") String type) {
+        return personaPort.getAll(type);
     }
 
     // Actualiza persona

@@ -2,7 +2,10 @@ package com.bosonit.springboot.db2.content.student.application;
 
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
+import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
+import com.bosonit.springboot.db2.content.profesor.infraestructure.repository.port.ProfesorPortRep;
 import com.bosonit.springboot.db2.content.student.application.port.StudentPort;
 import com.bosonit.springboot.db2.content.student.domain.Student;
 import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.input.StudentInputDTO;
@@ -25,13 +28,18 @@ public class StudentUseCase implements StudentPort {
     @Autowired
     PersonaPortRep personaRepository;
 
+    @Autowired
+    ProfesorPortRep profesorRepository;
+
     @Override
     public Optional<StudentSimpleOutputDTO> save(StudentInputDTO studentInputDTO) throws UnprocesableException {
         validateStudent(studentInputDTO);
-        Student nuevoStudent = new Student(
-                studentInputDTO,
-                personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
-                    () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") ));
+        Persona persona = personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
+                () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") );
+        Profesor profesor = null;
+        if(studentInputDTO.getId_profesor() != null)
+            profesor = profesorRepository.getById(studentInputDTO.getId_profesor()).orElse(null);
+        Student nuevoStudent = new Student(studentInputDTO, persona, profesor);
         return Optional.of(new StudentSimpleOutputDTO( studentRepository.save(nuevoStudent) ));
     }
 
@@ -77,10 +85,12 @@ public class StudentUseCase implements StudentPort {
         studentInputDTO.setComments( studentInputDTO.getComments() != null ? studentInputDTO.getComments() : oldStudent.getComments() );
         studentInputDTO.setBranch( studentInputDTO.getBranch() != null ? studentInputDTO.getBranch() : oldStudent.getBranch() );
 
-        Student newStudent = new Student(
-                studentInputDTO,
-                personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
-                        () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") ));
+        Persona persona = personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
+                () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") );
+        if(persona.getProfesor() != null) throw new UnprocesableException("Un profesor no puede ser estudiante");
+
+        Profesor profesor = profesorRepository.getById(studentInputDTO.getId_profesor()).orElse(null);
+        Student newStudent = new Student(studentInputDTO, persona, profesor);
         newStudent.setId_student(id);
         return Optional.of(new StudentSimpleOutputDTO( studentRepository.save(newStudent) ));
     }

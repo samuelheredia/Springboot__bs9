@@ -1,16 +1,15 @@
 package com.bosonit.springboot.db2.content.persona.domain;
 
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
+import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
+import com.bosonit.springboot.db2.content.student.domain.Student;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
@@ -42,6 +41,27 @@ public class Persona {
     Date created_date; //not null
     String imagen_url;
     Date termination_date;
+    @OneToOne(mappedBy = "persona")
+    Profesor profesor;
+    @OneToOne(mappedBy = "persona")
+    Student student;
+
+
+    public Persona(int id_persona, String usuario, String password, String nombre, String apellido, String company_email, String personal_email,
+                   String city, Boolean active, String imagen_url, Date termination_date){
+        this.id_persona = id_persona;
+        this.usuario = usuario;
+        this.password = password;
+        this.name = nombre;
+        this.surname = apellido;
+        this.company_email = company_email;
+        this.personal_email = personal_email;
+        this.city = city;
+        this.active = active;
+        this.imagen_url = imagen_url;
+        this.termination_date = termination_date;
+        this.created_date = new Date();
+    }
 
     public Persona(int id, PersonaInputDTO personaInputDTO){
         this.setId_persona(id);

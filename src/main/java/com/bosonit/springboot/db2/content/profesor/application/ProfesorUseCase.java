@@ -2,6 +2,7 @@ package com.bosonit.springboot.db2.content.profesor.application;
 
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import com.bosonit.springboot.db2.content.profesor.application.port.ProfesorPort;
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
@@ -28,10 +29,13 @@ public class ProfesorUseCase implements ProfesorPort {
     @Override
     public Optional<ProfesorSimpleOutputDTO> save(ProfesorInputDTO profesorInputDTO) throws UnprocesableException {
         validateProfesor(profesorInputDTO);
-        Profesor nuevoProfesor = new Profesor(
-                profesorInputDTO,
-                personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
-                        () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") ));
+        Persona persona = personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
+                () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") );
+        if(persona.getStudent() != null) {
+            persona.setStudent(null);
+            personaRepository.save(persona);
+        }
+        Profesor nuevoProfesor = new Profesor(profesorInputDTO, persona);
         return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(nuevoProfesor) ));
     }
 
@@ -79,12 +83,12 @@ public class ProfesorUseCase implements ProfesorPort {
         profesorInputDTO.setComments( profesorInputDTO.getComments() != null ? profesorInputDTO.getComments() : oldProfesor.getComments() );
         profesorInputDTO.setBranch( profesorInputDTO.getBranch() != null ? profesorInputDTO.getBranch() : oldProfesor.getBranch() );
 
-        Profesor newProfesor = new Profesor(
-                profesorInputDTO,
-                personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
-                        () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") ));
-        newProfesor.setId_profesor(id);
-        return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(newProfesor) ));
+        Persona persona = personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
+                () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") );
+        if(persona.getStudent() != null) throw new UnprocesableException("Un estudiante no puede ser profesor.");
+        Profesor nuevoProfesor = new Profesor(profesorInputDTO, persona);
+        nuevoProfesor.setId_profesor(id);
+        return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(nuevoProfesor) ));
     }
 
     public boolean validateProfesor(ProfesorInputDTO profesorInputDTO) throws UnprocesableException {
