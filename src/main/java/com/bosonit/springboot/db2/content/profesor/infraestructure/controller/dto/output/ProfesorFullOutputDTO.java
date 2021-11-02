@@ -1,10 +1,15 @@
 package com.bosonit.springboot.db2.content.profesor.infraestructure.controller.dto.output;
 
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
+import com.bosonit.springboot.db2.content.student.domain.Student;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -21,6 +26,7 @@ public class ProfesorFullOutputDTO extends ProfesorSimpleOutputDTO {
     Date created_date; //not null
     String imagen_url;
     Date termination_date;
+    List<String> students;
 
     public ProfesorFullOutputDTO(Profesor profesor){
         super(profesor);
@@ -37,5 +43,7 @@ public class ProfesorFullOutputDTO extends ProfesorSimpleOutputDTO {
         this.created_date = profesor.getPersona().getCreated_date();
         this.imagen_url = profesor.getPersona().getImagen_url();
         this.termination_date = profesor.getPersona().getTermination_date();
+        this.students = profesor.getStudents().stream().map(Student::getId_student).collect(Collectors.toList());
+
     }
 }

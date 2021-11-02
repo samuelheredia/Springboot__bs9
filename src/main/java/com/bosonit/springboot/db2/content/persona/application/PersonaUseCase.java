@@ -9,7 +9,6 @@ import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
-import com.bosonit.springboot.db2.content.student.infraestructure.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,32 +21,32 @@ import java.util.Optional;
 public class PersonaUseCase implements PersonaPort {
 
     @Autowired
-    PersonaPortRep personaPortRep;
+    PersonaPortRep personaRepository;
 
     @Override
     public Optional<PersonaOutputDTO> save(PersonaInputDTO personaInputDTO) throws UnprocesableException {
         if( validatePersona(personaInputDTO) )
             return Optional.of(
                     new PersonaOutputDTO(
-                            personaPortRep.save(new Persona(personaInputDTO)) ));
+                            personaRepository.save(new Persona(personaInputDTO)) ));
         return Optional.empty();
     }
 
     @Override
     public Optional<PersonaOutputDTO> getById(int id, String type) {
-        if(personaPortRep.getById(id).isPresent()) {
-            Persona persona = personaPortRep.getById(id).orElse(new Persona());
+        if(personaRepository.getById(id).isPresent()) {
+            Persona persona = personaRepository.getById(id).orElse(new Persona());
 
             switch(type){
-                case "simple": return Optional.of(new PersonaOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                case "simple": return Optional.of(new PersonaOutputDTO(personaRepository.getById(id).orElse(new Persona())));
                 case "full":
 
 
                     if(persona.getProfesor() != null)
-                        return Optional.of(new PersonaProfesorOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                        return Optional.of(new PersonaProfesorOutputDTO(personaRepository.getById(id).orElse(new Persona())));
                     if(persona.getStudent() != null)
-                        return Optional.of(new PersonaStudentOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
-                    return Optional.of(new PersonaOutputDTO(personaPortRep.getById(id).orElse(new Persona())));
+                        return Optional.of(new PersonaStudentOutputDTO(personaRepository.getById(id).orElse(new Persona())));
+                    return Optional.of(new PersonaOutputDTO(personaRepository.getById(id).orElse(new Persona())));
                 default:
                     throw new UnprocesableException("Parámetro '"+type+"' no reconocido (debe ser full/simple)");
             }
@@ -60,11 +59,11 @@ public class PersonaUseCase implements PersonaPort {
         List<PersonaOutputDTO> personaOutputDTOList = new ArrayList<>();
         switch(type) {
             case "simple":
-                personaPortRep.getByName(name).forEach(
+                personaRepository.getByName(name).forEach(
                         (persona) -> personaOutputDTOList.add(new PersonaOutputDTO(persona)));
                 break;
             case "full":
-                personaPortRep.getByName(name).forEach(
+                personaRepository.getByName(name).forEach(
                         (persona) -> {
                             if (persona.getProfesor() != null)
                                 personaOutputDTOList.add(new PersonaProfesorOutputDTO(persona));
@@ -86,11 +85,11 @@ public class PersonaUseCase implements PersonaPort {
         List<PersonaOutputDTO> personaOutputDTOList = new ArrayList<>();
         switch(type) {
             case "simple":
-                personaPortRep.getAll().forEach(
+                personaRepository.getAll().forEach(
                         (persona) -> personaOutputDTOList.add(new PersonaOutputDTO(persona)));
                 break;
             case "full":
-                personaPortRep.getAll().forEach(
+                personaRepository.getAll().forEach(
                         (persona) -> {
                             if (persona.getProfesor() != null)
                                 personaOutputDTOList.add(new PersonaProfesorOutputDTO(persona));
@@ -109,9 +108,9 @@ public class PersonaUseCase implements PersonaPort {
 
     @Override
     public Optional<PersonaOutputDTO> deleteById(int id) {
-        if(personaPortRep.getById(id).isPresent()) {
-            PersonaOutputDTO personaOutputDTO = new PersonaOutputDTO(personaPortRep.getById(id).get());
-            personaPortRep.deleteById(id);
+        if(personaRepository.getById(id).isPresent()) {
+            PersonaOutputDTO personaOutputDTO = new PersonaOutputDTO(personaRepository.getById(id).get());
+            personaRepository.deleteById(id);
             return Optional.of( personaOutputDTO );
         }
         else
@@ -119,9 +118,27 @@ public class PersonaUseCase implements PersonaPort {
     }
 
     @Override
+    public Boolean isProfesor(int id) throws NotFoundException {
+        return personaRepository.getById(id).orElseThrow( () -> new NotFoundException("No encontrada persona con ID: "+id)).getProfesor() != null;
+    }
+
+    @Override
+    public Boolean isStudent(int id) throws NotFoundException {
+        return personaRepository.getById(id).orElseThrow( () -> new NotFoundException("No encontrada persona con ID: "+id)).getStudent() != null;
+    }
+
+    @Override
+    public Persona getPersonaById(int id) throws NotFoundException {
+
+        return personaRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("No existe persona con ID: "+id)
+        );
+    }
+
+    @Override
     public Optional<PersonaOutputDTO> edit(int id, PersonaInputDTO personaInputDTO) throws UnprocesableException, NotFoundException {
-        if(personaPortRep.getById(id).isPresent()) {
-            Persona oldPersona = personaPortRep.getById(id).get();
+        if(personaRepository.getById(id).isPresent()) {
+            Persona oldPersona = personaRepository.getById(id).get();
             personaInputDTO.setActive( personaInputDTO.getActive() != null ? personaInputDTO.getActive() : oldPersona.getActive() );
             personaInputDTO.setCity( personaInputDTO.getCity() != null ? personaInputDTO.getCity() : oldPersona.getCity() );
             personaInputDTO.setCompany_email(personaInputDTO.getCompany_email() != null ? personaInputDTO.getCompany_email() : oldPersona.getCompany_email());
@@ -133,7 +150,7 @@ public class PersonaUseCase implements PersonaPort {
             personaInputDTO.setTermination_date(personaInputDTO.getTermination_date() != null ? personaInputDTO.getTermination_date() : oldPersona.getTermination_date());
             personaInputDTO.setCreated_date( new Date() );
             return Optional
-                    .of(new PersonaOutputDTO(personaPortRep
+                    .of(new PersonaOutputDTO(personaRepository
                         .save(new Persona(id, personaInputDTO)))); }
         else
             throw new NotFoundException("Persona con ID: "+id+" no encontrada");

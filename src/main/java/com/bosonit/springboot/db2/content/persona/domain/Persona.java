@@ -4,16 +4,15 @@ import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
 import com.bosonit.springboot.db2.content.student.domain.Student;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Persona {

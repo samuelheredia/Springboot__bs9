@@ -36,6 +36,18 @@ public class StudentController {
         return studentUseCase.edit(id, studentInputDTO).orElse( new StudentSimpleOutputDTO() );
     }
 
+    @PutMapping("{id}/add")
+    public StudentSimpleOutputDTO addAsignatura(@PathVariable String id, @RequestBody List<String> idAsignaturas){
+        //System.out.println("LISTA: "+idAsignaturas);
+        return studentUseCase.addAsignaturas(id, idAsignaturas).orElse( new StudentSimpleOutputDTO() );
+    }
+
+    @DeleteMapping("{id}/remove")
+    public StudentSimpleOutputDTO removeAsignatura(@PathVariable String id, @RequestBody List<String> idAsignaturas){
+
+        return studentUseCase.removeAsignaturas(id, idAsignaturas).orElse( new StudentSimpleOutputDTO() );
+    }
+
     @DeleteMapping("{id}")
     public void deleteStudent(@PathVariable String id){
         studentUseCase.deleteById(id);

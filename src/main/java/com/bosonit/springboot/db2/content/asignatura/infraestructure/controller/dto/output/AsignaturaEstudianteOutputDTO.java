@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class AsignaturaEstudianteOutputDTO extends AsignaturaOutputDTO{
-    List<Student> students;
+    List<String> studentsString;
 
     public AsignaturaEstudianteOutputDTO(Asignatura asignatura){
         super(asignatura);
-        this.students = new ArrayList<>(asignatura.getStudents());
+        this.studentsString = asignatura.getStudents().stream().map(Student::getId_student).collect(Collectors.toList());
     }
 }

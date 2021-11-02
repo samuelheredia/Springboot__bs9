@@ -2,6 +2,8 @@ package com.bosonit.springboot.db2.content.profesor.application;
 
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.Mapper;
+import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import com.bosonit.springboot.db2.content.profesor.application.port.ProfesorPort;
@@ -24,19 +26,17 @@ public class ProfesorUseCase implements ProfesorPort {
     ProfesorPortRep profesorRepository;
 
     @Autowired
-    PersonaPortRep personaRepository;
+    Mapper mapper;
 
     @Override
-    public Optional<ProfesorSimpleOutputDTO> save(ProfesorInputDTO profesorInputDTO) throws UnprocesableException {
+    public Optional<ProfesorSimpleOutputDTO> save(ProfesorInputDTO profesorInputDTO) {
         validateProfesor(profesorInputDTO);
-        Persona persona = personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
-                () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") );
-        if(persona.getStudent() != null) {
-            persona.setStudent(null);
-            personaRepository.save(persona);
-        }
-        Profesor nuevoProfesor = new Profesor(profesorInputDTO, persona);
-        return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(nuevoProfesor) ));
+        Profesor profesor = mapper.createProfesor(profesorInputDTO);
+        if(profesor.getPersona().getStudent() != null) throw new UnprocesableException("El estudiante "+profesor.getPersona().getStudent().getId_student()
+                +" no puede ser profesor");
+        if(profesor.getPersona().getProfesor() != null) throw new UnprocesableException("La persona con ID "+profesor.getPersona().getId_persona()
+                +" ya es profesor");
+        return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(profesor) ));
     }
 
     @Override
@@ -76,18 +76,29 @@ public class ProfesorUseCase implements ProfesorPort {
     }
 
     @Override
+    public Profesor getProfesorById(String id) {
+        return profesorRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("No encontrado profesor con ID: "+id)
+        );
+    }
+
+    @Override
     public Optional<ProfesorSimpleOutputDTO> edit(String id, ProfesorInputDTO profesorInputDTO) throws NotFoundException, UnprocesableException {
+
         Profesor oldProfesor = profesorRepository.getById(id).orElseThrow(
                 () -> new NotFoundException("Student con ID: "+id+" no encontrado")
         );
         profesorInputDTO.setComments( profesorInputDTO.getComments() != null ? profesorInputDTO.getComments() : oldProfesor.getComments() );
         profesorInputDTO.setBranch( profesorInputDTO.getBranch() != null ? profesorInputDTO.getBranch() : oldProfesor.getBranch() );
 
-        Persona persona = personaRepository.getById(profesorInputDTO.getId_persona()).orElseThrow(
-                () -> new NotFoundException("Persona con ID: "+profesorInputDTO.getId_persona()+" no encontrada") );
-        if(persona.getStudent() != null) throw new UnprocesableException("Un estudiante no puede ser profesor.");
-        Profesor nuevoProfesor = new Profesor(profesorInputDTO, persona);
+        Profesor nuevoProfesor = mapper.createProfesor(profesorInputDTO);
         nuevoProfesor.setId_profesor(id);
+
+        if(nuevoProfesor.getPersona().getStudent() != null) throw new UnprocesableException("El estudiante "+nuevoProfesor.getPersona().getStudent().getId_student()
+                +" no puede ser profesor");
+        if(nuevoProfesor.getPersona().getProfesor() != null) throw new UnprocesableException("La persona con ID "+nuevoProfesor.getPersona().getId_persona()
+        +" ya es profesor");
+
         return Optional.of(new ProfesorSimpleOutputDTO( profesorRepository.save(nuevoProfesor) ));
     }
 

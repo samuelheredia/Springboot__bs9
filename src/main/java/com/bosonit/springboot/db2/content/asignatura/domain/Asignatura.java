@@ -3,9 +3,7 @@ package com.bosonit.springboot.db2.content.asignatura.domain;
 import com.bosonit.springboot.db2.content.StringPrefixedSequenceIdGenerator;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.input.AsignaturaInputDTO;
 import com.bosonit.springboot.db2.content.student.domain.Student;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,7 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Asignatura {
@@ -32,7 +31,11 @@ public class Asignatura {
             })
     @Column(name = "id_asignatura")
     String id_asignatura;
-    @ManyToMany(mappedBy = "asignaturas")
+    @ManyToMany(mappedBy = "asignaturas",
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     Set<Student> students = new HashSet<>();
     String asignatura;
     String coments;
@@ -47,7 +50,7 @@ public class Asignatura {
         this.initial_date = new Date();
     }
 
-    Asignatura(String comments, String asignatura, Date finish_date){
+    public Asignatura(String comments, String asignatura, Date finish_date){
         this.coments = comments;
         this.asignatura = asignatura;
         this.finish_date = finish_date;

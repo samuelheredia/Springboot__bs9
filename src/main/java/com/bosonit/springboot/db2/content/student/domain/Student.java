@@ -6,7 +6,9 @@ import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
 import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.input.StudentInputDTO;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.lang.Nullable;
@@ -16,7 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Student {
     @Id
@@ -45,7 +48,8 @@ public class Student {
 
     @ManyToMany
     @JoinTable(name="estudiante_asignatura",
-    joinColumns = { @JoinColumn(name = "id_estudiante") })
+    joinColumns = { @JoinColumn(name = "id_student") },
+    inverseJoinColumns = { @JoinColumn(name = "id_asignatura") })
     private Set<Asignatura> asignaturas = new HashSet<>();
     @Nullable
     @ManyToOne
@@ -58,7 +62,7 @@ public class Student {
         this.branch = branch;
         this.persona = persona;
         this.profesor = profesor;
-        if(profesor != null) profesor.addStudent(this);
+        //if(profesor != null) profesor.addStudent(this);
     }
 
     public Student(String id, StudentInputDTO studentInputDTO, Persona persona, Profesor profesor){
@@ -68,7 +72,7 @@ public class Student {
         this.branch = studentInputDTO.getBranch();
         this.persona = persona;
         this.profesor = profesor;
-        if(profesor != null) profesor.addStudent(this);
+        //if(profesor != null) profesor.addStudent(this);
     }
 
     public Student(StudentInputDTO studentInputDTO, Persona persona, Profesor profesor){
@@ -77,6 +81,11 @@ public class Student {
         this.branch = studentInputDTO.getBranch();
         this.persona = persona;
         this.profesor = profesor;
-        if(profesor != null) profesor.addStudent(this);
+        //if(profesor != null) profesor.addStudent(this);
     }
+
+    public void addAsignatura(Asignatura asignatura){
+        asignaturas.add(asignatura);
+    }
+    public void removeAsignatura(Asignatura asignatura){ asignaturas.remove(asignatura); }
 }

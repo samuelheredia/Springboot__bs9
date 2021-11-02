@@ -5,7 +5,9 @@ import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.profesor.infraestructure.controller.dto.input.ProfesorInputDTO;
 import com.bosonit.springboot.db2.content.student.domain.Student;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Profesor {
     @Id
@@ -48,20 +51,10 @@ public class Profesor {
         this.persona = persona;
     }
 
-    public Profesor(String id, ProfesorInputDTO profesorInputDTO, Persona persona){
-        this.id_profesor = id;
-        this.comments = profesorInputDTO.getComments() != null ? profesorInputDTO.getComments() : this.comments;
-        this.branch = profesorInputDTO.getBranch();
-        this.persona = persona;
-    }
-
-    public Profesor(ProfesorInputDTO profesorInputDTO, Persona persona){
-        this.comments = profesorInputDTO.getComments() != null ? profesorInputDTO.getComments() : this.comments;
-        this.branch = profesorInputDTO.getBranch();
-        this.persona = persona;
-    }
-
+/*
     public boolean addStudent(Student student){
         return students.add(student);
     }
+    */
+
 }

@@ -2,6 +2,8 @@ package com.bosonit.springboot.db2.content.student.application;
 
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
 import com.bosonit.springboot.db2.config.exception.UnprocesableException;
+import com.bosonit.springboot.db2.content.Mapper;
+import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.persona.infraestructure.repository.port.PersonaPortRep;
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
@@ -26,21 +28,19 @@ public class StudentUseCase implements StudentPort {
     StudentPortRep studentRepository;
 
     @Autowired
-    PersonaPortRep personaRepository;
-
-    @Autowired
-    ProfesorPortRep profesorRepository;
+    Mapper mapper;
 
     @Override
     public Optional<StudentSimpleOutputDTO> save(StudentInputDTO studentInputDTO) throws UnprocesableException {
         validateStudent(studentInputDTO);
-        Persona persona = personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
-                () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") );
-        Profesor profesor = null;
-        if(studentInputDTO.getId_profesor() != null)
-            profesor = profesorRepository.getById(studentInputDTO.getId_profesor()).orElse(null);
-        Student nuevoStudent = new Student(studentInputDTO, persona, profesor);
-        return Optional.of(new StudentSimpleOutputDTO( studentRepository.save(nuevoStudent) ));
+        Student student = mapper.createStudent(studentInputDTO);
+
+        if(student.getPersona().getProfesor() != null) throw new UnprocesableException("El profesor "+student.getPersona().getProfesor().getId_profesor()
+                +" no puede ser estudiante");
+        if(student.getPersona().getStudent() != null) throw new UnprocesableException("La persona con ID "+student.getPersona().getId_persona()
+                +" ya es estudiante");
+
+        return Optional.of(new StudentSimpleOutputDTO( studentRepository.save(student) ));
     }
 
     @Override
@@ -78,21 +78,52 @@ public class StudentUseCase implements StudentPort {
     }
 
     @Override
+    public Student getStudentById(String id) {
+        return studentRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("No encontrado estudiante con ID: "+id)
+        );
+    }
+
+    @Override
     public Optional<StudentSimpleOutputDTO> edit(String id, StudentInputDTO studentInputDTO) throws NotFoundException, UnprocesableException {
+
         Student oldStudent = studentRepository.getById(id).orElseThrow(
                 () -> new NotFoundException("Student con ID: "+id+" no encontrado")
         );
         studentInputDTO.setComments( studentInputDTO.getComments() != null ? studentInputDTO.getComments() : oldStudent.getComments() );
         studentInputDTO.setBranch( studentInputDTO.getBranch() != null ? studentInputDTO.getBranch() : oldStudent.getBranch() );
 
-        Persona persona = personaRepository.getById(studentInputDTO.getId_persona()).orElseThrow(
-                () -> new NotFoundException("Persona con ID: "+studentInputDTO.getId_persona()+" no encontrada") );
-        if(persona.getProfesor() != null) throw new UnprocesableException("Un profesor no puede ser estudiante");
-
-        Profesor profesor = profesorRepository.getById(studentInputDTO.getId_profesor()).orElse(null);
-        Student newStudent = new Student(studentInputDTO, persona, profesor);
+        Student newStudent = mapper.createStudent(studentInputDTO);
         newStudent.setId_student(id);
+
+        if(newStudent.getPersona().getProfesor() != null) throw new UnprocesableException("El profesor "+newStudent.getPersona().getStudent().getId_student()
+                +" no puede ser estudiante");
+        if(newStudent.getPersona().getStudent() != null) throw new UnprocesableException("La persona con ID "+newStudent.getPersona().getId_persona()
+                +" ya es estudiante");
+
         return Optional.of(new StudentSimpleOutputDTO( studentRepository.save(newStudent) ));
+    }
+
+    @Override
+    public Optional<StudentSimpleOutputDTO> addAsignaturas(String id, List<String> listaAsignaturas) {
+        Student student = studentRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("Student con ID: "+id+" no encontrado")
+        );
+        for(String asignatura : listaAsignaturas) {
+            mapper.addAsignaturaToStudent(student, asignatura);
+        }
+        return Optional.of(new StudentFullOutputDTO( studentRepository.save(student) ));
+    }
+
+    @Override
+    public Optional<StudentSimpleOutputDTO> removeAsignaturas(String id, List<String> listaAsignaturas) {
+        Student student = studentRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("Student con ID: "+id+" no encontrado")
+        );
+        for(String asignatura : listaAsignaturas) {
+            mapper.removeAsignaturaToStudent(student, asignatura);
+        }
+        return Optional.of(new StudentFullOutputDTO( studentRepository.save(student) ));
     }
 
     public boolean validateStudent(StudentInputDTO studentInputDTO) throws UnprocesableException {

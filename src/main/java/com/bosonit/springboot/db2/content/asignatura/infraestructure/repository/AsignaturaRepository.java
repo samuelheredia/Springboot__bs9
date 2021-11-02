@@ -29,8 +29,8 @@ public class AsignaturaRepository implements AsignaturaPortRep {
 
     @Override
     public List<Asignatura> getByStudentId(String idStudent) {
-        //return asignaturaRepositoyJPA.findByStudentId(idStudent);
-        return new ArrayList<>();
+        return asignaturaRepositoyJPA.buscaPorIdEstudiante(idStudent);
+        //return new ArrayList<>();
     }
 
     @Override

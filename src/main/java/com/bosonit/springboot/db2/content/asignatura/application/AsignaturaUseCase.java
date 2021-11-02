@@ -5,6 +5,7 @@ import com.bosonit.springboot.db2.config.exception.UnprocesableException;
 import com.bosonit.springboot.db2.content.asignatura.application.port.AsignaturaPort;
 import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.input.AsignaturaInputDTO;
+import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output.AsignaturaEstudianteOutputDTO;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output.AsignaturaOutputDTO;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.repository.port.AsignaturaPortRep;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
@@ -30,6 +31,11 @@ public class AsignaturaUseCase implements AsignaturaPort {
     }
 
     @Override
+    public Asignatura saveAsignatura(Asignatura asignatura) {
+        return asignaturaRepository.save(asignatura);
+    }
+
+    @Override
     public Optional<AsignaturaOutputDTO> getById(String id) {
         return Optional.of(new AsignaturaOutputDTO(asignaturaRepository.getById(id).orElseThrow(
                 () -> new NotFoundException("No encontrada asignatura con ID: "+id)
@@ -39,12 +45,12 @@ public class AsignaturaUseCase implements AsignaturaPort {
     @Override
     public List<AsignaturaOutputDTO> getByStudentId(String idStudent) {
         List<AsignaturaOutputDTO> asignaturaOutputDTOS = new ArrayList<>();
-        /*
-        asignaturaRepository.getByStudentID(idStudent).forEach(
+
+
+        asignaturaRepository.getByStudentId(idStudent).forEach(
                 (asignatura) -> asignaturaOutputDTOS.add( new AsignaturaOutputDTO(asignatura) )
         );
 
-         */
         return asignaturaOutputDTOS;
     }
 
@@ -52,9 +58,16 @@ public class AsignaturaUseCase implements AsignaturaPort {
     public List<AsignaturaOutputDTO> getAll() {
         List<AsignaturaOutputDTO> asignaturaOutputDTOS = new ArrayList<>();
         asignaturaRepository.getAll().forEach(
-                (asignatura) -> asignaturaOutputDTOS.add( new AsignaturaOutputDTO(asignatura) )
+                (asignatura) -> asignaturaOutputDTOS.add( new AsignaturaEstudianteOutputDTO(asignatura) )
         );
         return asignaturaOutputDTOS;
+    }
+
+    @Override
+    public Asignatura getAsignaturaById(String id) {
+        return asignaturaRepository.getById(id).orElseThrow(
+                () -> new NotFoundException("No encontrada asignatura con ID: "+id)
+        );
     }
 
     @Override
