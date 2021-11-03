@@ -8,10 +8,6 @@ import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output.AsignaturaEstudianteOutputDTO;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output.AsignaturaOutputDTO;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.repository.port.AsignaturaPortRep;
-import com.bosonit.springboot.db2.content.persona.domain.Persona;
-import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
-import com.bosonit.springboot.db2.content.student.domain.Student;
-import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.output.StudentSimpleOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

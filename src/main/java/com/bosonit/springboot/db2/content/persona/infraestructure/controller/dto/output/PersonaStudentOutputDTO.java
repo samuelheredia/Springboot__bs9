@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Setter
 public class PersonaStudentOutputDTO extends PersonaOutputDTO {
     String id_student;
+    String profesorAsignado;
     int hoursWeek;
     String comments;
     String branch;
@@ -23,6 +24,7 @@ public class PersonaStudentOutputDTO extends PersonaOutputDTO {
         this.hoursWeek = persona.getStudent().getNum_hours_week();
         this.comments = persona.getStudent().getComments();
         this.branch = persona.getStudent().getBranch();
+        this.profesorAsignado = persona.getStudent().getProfesor() != null ? persona.getStudent().getProfesor().getId_profesor() : "No asignado";
         this.asignaturas = persona.getStudent().getAsignaturas().stream().map(Asignatura::getAsignatura).collect(Collectors.toList());
     }
 }

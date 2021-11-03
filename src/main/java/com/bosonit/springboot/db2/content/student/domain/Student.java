@@ -5,13 +5,11 @@ import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
 import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.input.StudentInputDTO;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -36,9 +34,6 @@ public class Student {
             })
     @Column(name = "id_student")
     String id_student; // PK, autoincrement
-    @OneToOne
-    @JoinColumn(name="id_persona", nullable = false)
-    Persona persona;
     @Column(name="num_hours_week", nullable = false)
     int num_hours_week;
     @Column(name="comments")
@@ -46,12 +41,16 @@ public class Student {
     @Column(name="branch", nullable = false)
     String branch;
 
+    @OneToOne
+    @JoinColumn(name="id_persona", nullable = false)
+    Persona persona;
+
     @ManyToMany
     @JoinTable(name="estudiante_asignatura",
     joinColumns = { @JoinColumn(name = "id_student") },
     inverseJoinColumns = { @JoinColumn(name = "id_asignatura") })
     private Set<Asignatura> asignaturas = new HashSet<>();
-    @Nullable
+
     @ManyToOne
     @JoinColumn(name="id_profesor")
     Profesor profesor;
@@ -62,7 +61,6 @@ public class Student {
         this.branch = branch;
         this.persona = persona;
         this.profesor = profesor;
-        //if(profesor != null) profesor.addStudent(this);
     }
 
     public Student(String id, StudentInputDTO studentInputDTO, Persona persona, Profesor profesor){
@@ -72,7 +70,6 @@ public class Student {
         this.branch = studentInputDTO.getBranch();
         this.persona = persona;
         this.profesor = profesor;
-        //if(profesor != null) profesor.addStudent(this);
     }
 
     public Student(StudentInputDTO studentInputDTO, Persona persona, Profesor profesor){
@@ -81,7 +78,6 @@ public class Student {
         this.branch = studentInputDTO.getBranch();
         this.persona = persona;
         this.profesor = profesor;
-        //if(profesor != null) profesor.addStudent(this);
     }
 
     public void addAsignatura(Asignatura asignatura){

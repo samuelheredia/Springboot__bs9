@@ -40,12 +40,12 @@ public class PersonaUseCase implements PersonaPort {
             switch(type){
                 case "simple": return Optional.of(new PersonaOutputDTO(personaRepository.getById(id).orElse(new Persona())));
                 case "full":
-
-
                     if(persona.getProfesor() != null)
                         return Optional.of(new PersonaProfesorOutputDTO(personaRepository.getById(id).orElse(new Persona())));
-                    if(persona.getStudent() != null)
+                    if(persona.getStudent() != null) {
+                        System.out.println("PROBANDO: "+persona.getStudent().getProfesor());
                         return Optional.of(new PersonaStudentOutputDTO(personaRepository.getById(id).orElse(new Persona())));
+                    }
                     return Optional.of(new PersonaOutputDTO(personaRepository.getById(id).orElse(new Persona())));
                 default:
                     throw new UnprocesableException("Parámetro '"+type+"' no reconocido (debe ser full/simple)");
@@ -115,16 +115,6 @@ public class PersonaUseCase implements PersonaPort {
         }
         else
             throw new NotFoundException("Persona con ID: "+id+" no encontrada");
-    }
-
-    @Override
-    public Boolean isProfesor(int id) throws NotFoundException {
-        return personaRepository.getById(id).orElseThrow( () -> new NotFoundException("No encontrada persona con ID: "+id)).getProfesor() != null;
-    }
-
-    @Override
-    public Boolean isStudent(int id) throws NotFoundException {
-        return personaRepository.getById(id).orElseThrow( () -> new NotFoundException("No encontrada persona con ID: "+id)).getStudent() != null;
     }
 
     @Override

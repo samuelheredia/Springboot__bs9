@@ -1,12 +1,9 @@
-package com.bosonit.springboot.db2.content;
+package com.bosonit.springboot.db2.content.core;
 
-import com.bosonit.springboot.db2.config.exception.NotFoundException;
-import com.bosonit.springboot.db2.config.exception.UnprocesableException;
 import com.bosonit.springboot.db2.content.asignatura.application.port.AsignaturaPort;
 import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
 import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
-import com.bosonit.springboot.db2.content.profesor.application.ProfesorUseCase;
 import com.bosonit.springboot.db2.content.profesor.application.port.ProfesorPort;
 import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
 import com.bosonit.springboot.db2.content.profesor.infraestructure.controller.dto.input.ProfesorInputDTO;
@@ -37,21 +34,22 @@ public class Mapper {
 
     public Profesor createProfesor(ProfesorInputDTO profesorInputDTO){
         Profesor profesor = new Profesor();
+        Persona persona = personaUseCase.getPersonaById(profesorInputDTO.getId_persona());
         profesor.setBranch(profesorInputDTO.getBranch());
         profesor.setComments(profesorInputDTO.getComments());
-        profesor.setPersona( personaUseCase.getPersonaById(profesorInputDTO.getId_persona()) );
+        profesor.setPersona( persona );
+        persona.setProfesor(profesor);
         return profesor;
     }
 
     public Student createStudent(StudentInputDTO studentInputDTO){
         Student student = new Student();
+        Persona persona = personaUseCase.getPersonaById(studentInputDTO.getId_persona());
         student.setComments(studentInputDTO.getComments());
         student.setBranch(studentInputDTO.getBranch());
         student.setNum_hours_week(studentInputDTO.getHoursWeek());
         student.setProfesor( profesorUseCase.getProfesorById( studentInputDTO.getId_profesor()));
-        student.setPersona( personaUseCase.getPersonaById( studentInputDTO.getId_persona()) );
-
-        student.getProfesor().getStudents().add(student);
+        student.setPersona( persona );
 
         return student;
     }
@@ -71,5 +69,4 @@ public class Mapper {
         asignaturaUseCase.saveAsignatura(asignatura);
         return asignatura;
     }
-
 }

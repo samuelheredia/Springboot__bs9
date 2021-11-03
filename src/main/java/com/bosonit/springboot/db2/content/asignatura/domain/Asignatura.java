@@ -31,17 +31,17 @@ public class Asignatura {
             })
     @Column(name = "id_asignatura")
     String id_asignatura;
-    @ManyToMany(mappedBy = "asignaturas",
-        cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    Set<Student> students = new HashSet<>();
     String asignatura;
     String coments;
     @Column(nullable = false)
     Date initial_date; // Not null
     Date finish_date;
+
+    @ManyToMany(mappedBy = "asignaturas",
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE })
+    Set<Student> students = new HashSet<>();
 
     public Asignatura(AsignaturaInputDTO asignaturaInputDTO){
         this.coments = asignaturaInputDTO.getComents();

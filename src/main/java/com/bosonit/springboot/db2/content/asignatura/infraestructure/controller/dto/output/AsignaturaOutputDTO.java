@@ -1,14 +1,11 @@
 package com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output;
 
 import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
-import com.bosonit.springboot.db2.content.student.domain.Student;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

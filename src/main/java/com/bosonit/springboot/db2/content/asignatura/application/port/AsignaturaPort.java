@@ -5,8 +5,6 @@ import com.bosonit.springboot.db2.config.exception.UnprocesableException;
 import com.bosonit.springboot.db2.content.asignatura.domain.Asignatura;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.input.AsignaturaInputDTO;
 import com.bosonit.springboot.db2.content.asignatura.infraestructure.controller.dto.output.AsignaturaOutputDTO;
-import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.input.StudentInputDTO;
-import com.bosonit.springboot.db2.content.student.infraestructure.controller.dto.output.StudentSimpleOutputDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +18,4 @@ public interface AsignaturaPort {
     Asignatura getAsignaturaById(String id);
     Optional<AsignaturaOutputDTO> deleteById(String id) throws NotFoundException;
     Optional<AsignaturaOutputDTO> edit(String id, AsignaturaInputDTO asignaturaInputDTO) throws NotFoundException, UnprocesableException;
-
 }

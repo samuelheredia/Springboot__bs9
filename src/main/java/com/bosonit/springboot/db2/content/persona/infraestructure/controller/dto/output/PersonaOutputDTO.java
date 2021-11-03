@@ -1,8 +1,6 @@
 package com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output;
 
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
-import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
-import com.bosonit.springboot.db2.content.student.domain.Student;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

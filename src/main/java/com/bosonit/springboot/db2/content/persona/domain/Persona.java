@@ -40,15 +40,15 @@ public class Persona {
     Date created_date; //not null
     String imagen_url;
     Date termination_date;
-    @OneToOne(mappedBy = "persona")
+
+    // Entidad padre de profesor y student
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.REMOVE)
     Profesor profesor;
-    @OneToOne(mappedBy = "persona")
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.REMOVE)
     Student student;
 
-
-    public Persona(int id_persona, String usuario, String password, String nombre, String apellido, String company_email, String personal_email,
+    public Persona(String usuario, String password, String nombre, String apellido, String company_email, String personal_email,
                    String city, Boolean active, String imagen_url, Date termination_date){
-        this.id_persona = id_persona;
         this.usuario = usuario;
         this.password = password;
         this.name = nombre;

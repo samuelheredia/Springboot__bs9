@@ -2,7 +2,6 @@ package com.bosonit.springboot.db2.content.persona.infraestructure.repository.po
 
 
 import com.bosonit.springboot.db2.content.persona.domain.Persona;
-import com.bosonit.springboot.db2.content.persona.infraestructure.repository.jpa.PersonaRepositoryJPA;
 
 import java.util.List;
 import java.util.Optional;

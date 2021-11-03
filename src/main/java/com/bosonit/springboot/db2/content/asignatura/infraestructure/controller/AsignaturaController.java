@@ -45,6 +45,4 @@ public class AsignaturaController {
     public void deleteAsignatura(@PathVariable String id){
         asignaturaUseCase.deleteById(id);
     }
-
-
 }

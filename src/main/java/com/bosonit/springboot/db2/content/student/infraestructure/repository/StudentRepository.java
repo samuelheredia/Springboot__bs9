@@ -1,6 +1,5 @@
 package com.bosonit.springboot.db2.content.student.infraestructure.repository;
 
-import com.bosonit.springboot.db2.content.persona.infraestructure.repository.jpa.PersonaRepositoryJPA;
 import com.bosonit.springboot.db2.content.student.domain.Student;
 import com.bosonit.springboot.db2.content.student.infraestructure.repository.jpa.StudentRepositoryJPA;
 import com.bosonit.springboot.db2.content.student.infraestructure.repository.port.StudentPortRep;

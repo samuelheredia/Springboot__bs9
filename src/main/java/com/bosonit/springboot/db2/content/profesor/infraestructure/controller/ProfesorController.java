@@ -36,7 +36,7 @@ public class ProfesorController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id){
-        profesorUseCase.deleteById(id);
+    public ProfesorSimpleOutputDTO delete(@PathVariable String id){
+        return profesorUseCase.deleteById(id).orElse(new ProfesorSimpleOutputDTO() );
     }
 }
