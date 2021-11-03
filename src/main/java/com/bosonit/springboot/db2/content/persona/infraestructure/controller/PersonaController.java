@@ -4,8 +4,11 @@ import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
 import com.bosonit.springboot.db2.config.exception.NotFoundException;
+import com.bosonit.springboot.db2.content.profesor.infraestructure.controller.dto.output.ProfesorSimpleOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 
 @RestController
@@ -51,5 +54,10 @@ public class PersonaController {
     @DeleteMapping("{id}")
     public void deletePersona(@PathVariable int id) {
         personaPort.deleteById(id);
+    }
+
+    @GetMapping("profesor/{id}")
+    public ProfesorSimpleOutputDTO getProfesor(@PathVariable String id){
+        return new RestTemplate().getForObject("http://localhost:8081/profesor/"+id, ProfesorSimpleOutputDTO.class);
     }
 }

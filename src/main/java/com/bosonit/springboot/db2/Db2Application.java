@@ -8,22 +8,31 @@ import com.bosonit.springboot.db2.content.profesor.domain.Profesor;
 import com.bosonit.springboot.db2.content.profesor.infraestructure.repository.port.ProfesorPortRep;
 import com.bosonit.springboot.db2.content.student.domain.Student;
 import com.bosonit.springboot.db2.content.student.infraestructure.repository.port.StudentPortRep;
+import org.h2.tools.Server;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
 @SpringBootApplication
+@EnableFeignClients
 public class Db2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Db2Application.class, args);
 	}
-
+/*
+	@Bean(initMethod = "start", destroyMethod = "stop")
+	public Server h2Server() throws SQLException {
+		return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+	}
+*/
 	@Bean
 	public CommandLineRunner run(PersonaPortRep personaRepository, StudentPortRep studentRepository,
 								 ProfesorPortRep profesorRepository, AsignaturaPortRep asignaturaRepository){
