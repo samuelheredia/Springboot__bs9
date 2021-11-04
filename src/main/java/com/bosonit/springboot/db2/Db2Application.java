@@ -21,7 +21,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients("com.bosonit.springboot.db2")
 public class Db2Application {
 
 	public static void main(String[] args) {
@@ -73,5 +73,8 @@ public class Db2Application {
 			System.out.println("-- Cargada asignatura de prueba: "+asignatura.getAsignatura()+" asignada a "+student.getPersona().getUsuario());
 			System.out.println("-- Cargada asignatura de prueba: "+asignatura2.getAsignatura()+" sin asignar ");
 		};
+
+
 	}
+
 }

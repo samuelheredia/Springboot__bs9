@@ -1,5 +1,6 @@
 package com.bosonit.springboot.db2.content.persona.infraestructure.controller;
 
+import com.bosonit.springboot.db2.content.core.proxy.PersonasProxy;
 import com.bosonit.springboot.db2.content.persona.application.port.PersonaPort;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.input.PersonaInputDTO;
 import com.bosonit.springboot.db2.content.persona.infraestructure.controller.dto.output.PersonaOutputDTO;
@@ -56,8 +57,20 @@ public class PersonaController {
         personaPort.deleteById(id);
     }
 
+
+    //BS9 Feign y RestController
+
     @GetMapping("profesor/{id}")
     public ProfesorSimpleOutputDTO getProfesor(@PathVariable String id){
         return new RestTemplate().getForObject("http://localhost:8081/profesor/"+id, ProfesorSimpleOutputDTO.class);
+    }
+
+
+    @Autowired
+    PersonasProxy personasProxy;
+
+    @GetMapping("profesorfeign/{id}")
+    public ProfesorSimpleOutputDTO getProfesorFeign(@PathVariable String id){
+        return personasProxy.getProfesor(id);
     }
 }
